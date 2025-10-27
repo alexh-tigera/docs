@@ -4,6 +4,9 @@ description: Install Calico on non-cluster hosts and VMs
 
 # Install Calico on non-cluster hosts and VMs
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## Big picture
 
 Secure hosts and virtual machines (VMs) running outside of Kubernetes by installing $[prodname].
@@ -81,13 +84,14 @@ To learn how to restrict traffic to/from hosts and VMs using Calico network poli
 
 ### Set up your non-cluster host or VM
 
++<Tabs>
++<TabItem label="RHEL" value="RHEL-0">
++
 1. Configure the Calico Enterprise repository.
 
     ```bash
     curl -sfL $[rpmsUrl]/calico_enterprise.repo -o /etc/yum.repos.d/calico-enterprise.repo
     ```
-
-    Only Red Hat Enterprise Linux 8 and 9 x86-64 operating systems are supported in this version of $[prodname].
 
 1. Install Calico node and fluent-bit log forwarder packages.
 
@@ -108,6 +112,67 @@ To learn how to restrict traffic to/from hosts and VMs using Calico network poli
 
     You can configure the Calico node by tuning the environment variables defined in the `/etc/calico/calico-node/calico-node.env` file. For more information, see the [Felix configuration reference](../../reference/resources/felixconfig.mdx).
 
++</TabItem>
++<TabItem label="Debian" value="Debian-0">
++
++1. Configure the Calico Enterprise repository.
++
++    ```bash
++    AJHTODO
++    ```
++
++1. Install Calico node and fluent-bit log forwarder packages.
++
++    - Use `apt` to install the `calico-node` and `calico-fluent-bit` packages:
++
++      ```bash
++      apt update
++      apt install calico-node calico-fluent-bit
++      ```
++
++1. Copy the kubeconfig created in cluster setup step 3 to host folder `/etc/calico/kubeconfig` and change ownership to `calico:calico`.
++
++1. Start Calico node and log forwarder.
++
++    ```bash
++    systemctl enable --now calico-node.service
++    systemctl enable --now calico-fluent-bit.service
++    ```
++
++    You can configure the Calico node by tuning the environment variables defined in the `/etc/calico/calico-node/calico-node.env` file. For more information, see the [Felix configuration reference](../../reference/resources/felixconfig.mdx).
++
++</TabItem>
++<TabItem label="Ubuntu" value="Ubuntu-0">
++
++1. Configure the Calico Enterprise repository.
++
++    ```bash
++    AJHTODO
++    ```
++
++1. Install Calico node and fluent-bit log forwarder packages.
++
++    - Use `apt` to install the `calico-node` and `calico-fluent-bit` packages:
++
++      ```bash
++      apt update
++      apt install calico-node calico-fluent-bit
++      ```
++
++1. Copy the kubeconfig created in cluster setup step 3 to host folder `/etc/calico/kubeconfig` and change ownership to `calico:calico`.
++
++1. Start Calico node and log forwarder.
++
++    ```bash
++    systemctl enable --now calico-node.service
++    systemctl enable --now calico-fluent-bit.service
++    ```
++
++    You can configure the Calico node by tuning the environment variables defined in the `/etc/calico/calico-node/calico-node.env` file. For more information, see the [Felix configuration reference](../../reference/resources/felixconfig.mdx).
++
++</TabItem>
++</Tabs>
++
 ### Configure high availability mode
 
 High availability (HA) mode helps protect workloads running on hosts and VMs by providing an automated disaster recovery setup. It operates with two Kubernetes clusters: an active cluster and a passive cluster that remains synchronized and ready to take over if the active cluster becomes unavailable.
