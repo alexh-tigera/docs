@@ -10,6 +10,8 @@ const variables = {
   baseUrl: '/calico-enterprise/3.23',
   filesUrl: 'https://downloads.tigera.io/ee/v3.23.0-1.0',
   rpmsUrl: 'https://downloads.tigera.io/ee/rpms/' + releases[0].title.slice(0, 5),
+  debsUrl: 'https://AJHTODO/' + releases[0].title.slice(0, 5),
+  ubuntuPpa: 'ppa:AJHTODO' + releases[0].title.slice(0, 5),
   tutorialFilesURL: 'https://docs.tigera.io/files',
   tmpScriptsURL: 'https://docs.tigera.io/calico-enterprise/3.23',
   windowsScriptsURL: 'https://raw.githubusercontent.com/kubernetes-sigs/sig-windows-tools/master/hostprocess',

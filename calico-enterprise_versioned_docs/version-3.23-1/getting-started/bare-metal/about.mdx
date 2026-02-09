@@ -4,6 +4,9 @@ description: Install Calico on non-cluster hosts and VMs
 
 # Install Calico on non-cluster hosts and VMs
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## Big picture
 
 Secure hosts and virtual machines (VMs) running outside of Kubernetes by installing $[prodname].
@@ -82,20 +85,50 @@ To learn how to restrict traffic to/from hosts and VMs using Calico network poli
 ### Set up your non-cluster host or VM
 
 1. Configure the Calico Enterprise repository.
-
-    ```bash
-    curl -sfL $[rpmsUrl]/calico_enterprise.repo -o /etc/yum.repos.d/calico-enterprise.repo
-    ```
-
-    Only Red Hat Enterprise Linux 8 and 9 x86-64 operating systems are supported in this version of $[prodname].
+    <Tabs groupId="operating-systems">
+        <TabItem label="RHEL" value="RHEL-0">
+            ```bash
+            curl -sfL $[rpmsUrl]/calico_enterprise.repo -o /etc/yum.repos.d/calico-enterprise.repo
+            ```
+        </TabItem>
+        <TabItem label="Debian" value="Debian-0">
+            ```bash
+            curl -sfL $[debsUrl] -o /etc/apt/sources.list.d/calico-enterprise.sources
+            ```
+        </TabItem>
+        <TabItem label="Ubuntu" value="Ubuntu-0">
+            ```bash
+            add-apt-repository $[ubuntuPpa]
+            ```
+        </TabItem>
+    </Tabs>
 
 1. Install Calico node and fluent-bit log forwarder packages.
+    <Tabs groupId="operating-systems">
+        <TabItem label="RHEL" value="RHEL-0">
+            - Use `dnf` to install the `calico-node` and `calico-fluent-bit` packages:
+        
+              ```bash
+              dnf install calico-node calico-fluent-bit
+              ```
+        </TabItem>
+        <TabItem label="Debian" value="Debian-0">
+            - Use `apt` to install the `calico-node` and `calico-fluent-bit` packages:
+        
+              ```bash
+              apt update
+              apt install calico-node calico-fluent-bit
+              ```
+        </TabItem>
+        <TabItem label="Ubuntu" value="Ubuntu-0">
+            - Use `apt` to install the `calico-node` and `calico-fluent-bit` packages:
 
-    - Use `dnf` to install the `calico-node` and `calico-fluent-bit` packages:
-
-      ```bash
-      dnf install calico-node calico-fluent-bit
-      ```
+              ```bash
+              apt update
+              apt install calico-node calico-fluent-bit
+              ```
+        </TabItem>
+    </Tabs>
 
 1. Copy the `kubeconfig` created in cluster setup step 2 to host folder `/etc/calico/kubeconfig`.
 
