@@ -2343,7 +2343,7 @@ If you have issues getting your cluster up and running, use this checklist.
 - [Check logs for fatal errors](#check-logs-for-fatal-errors)
 - [Check custom resources](#check-custom-resources)
 - [Check pod capacity](#check-pod-capacity)
-- [Check the web console dashboard for traffic](#check-manager-ui-dashboard-for-traffic)
+- [Check the web console dashboard for traffic](#check-the-web-console-dashboard-for-traffic)
 
 ## Check installation start errors[​](#check-installation-start-errors)
 
@@ -5990,7 +5990,7 @@ As part of this process NAT is used to map the destination IP address and port f
 
 ![kube-proxy node port](https://docs.tigera.io/assets/images/kube-proxy-node-port-b8daa0296e4e25f65be4892bc45c7fae.svg)
 
-Note that because the connection source IP address is SNATed to the node IP address, ingress network policy for the service backing pod does not see the original client IP address. Typically this means that any such policy is limited to restricting the destination protocol and port, and cannot restrict based on the client / source IP. This limitation can be circumvented in some scenarios by using [externalTrafficPolicy](#externaltrafficpolicylocal) or by using Calico Cloud's eBPF data plane native service handling (rather than kube-proxy) which preserves source IP address.
+Note that because the connection source IP address is SNATed to the node IP address, ingress network policy for the service backing pod does not see the original client IP address. Typically this means that any such policy is limited to restricting the destination protocol and port, and cannot restrict based on the client / source IP. This limitation can be circumvented in some scenarios by using [externalTrafficPolicy](#externaltrafficpolicy) or by using Calico Cloud's eBPF data plane native service handling (rather than kube-proxy) which preserves source IP address.
 
 ## Load balancer services[​](#load-balancer-services)
 
@@ -6000,7 +6000,7 @@ The service can be accessed from outside of the cluster via a specific IP addres
 
 ![kube-proxy load balancer](https://docs.tigera.io/assets/images/kube-proxy-load-balancer-07d81e8c44b28b285157e15f8a75f2b4.svg)
 
-Most network load balancers preserve the client source IP address, but because the service then goes via a node port, the backing pods themselves do not see the client IP, with the same implications for network policy. As with node ports, this limitation can be circumvented in some scenarios by using [externalTrafficPolicy](#externaltrafficpolicylocal) or by using Calico Cloud's eBPF data plane [native service handling](#calico-ebpf-native-service-handling) (rather than kube-proxy) which preserves source IP address.
+Most network load balancers preserve the client source IP address, but because the service then goes via a node port, the backing pods themselves do not see the client IP, with the same implications for network policy. As with node ports, this limitation can be circumvented in some scenarios by using [externalTrafficPolicy](#externaltrafficpolicy) or by using Calico Cloud's eBPF data plane [native service handling](#calico-ebpf-native-service-handling) (rather than kube-proxy) which preserves source IP address.
 
 ## Advertising service IPs[​](#advertising-service-ips)
 
@@ -7312,13 +7312,13 @@ Creating and managing policy recommendations is available only in the web consol
 
 ## How to[​](#how-to)
 
-- [Enable policy recommendations](#enable-policy-recommendations)
+- Enable policy recommendations
 - [Activate and review policy recommendations](#activate-and-review-policy-recommendations)
 - [Review global settings for workloads](#review-global-settings-for-workloads)
 - [Update policy recommendations](#update-policy-recommendations)
 - [Private network recommendations](#private-network-recommendations)
 - [Troubleshoot policy recommendations](#troubleshoot-policy-recommendations)
-- [Disable the policy recommendations feature](#disable-the-policy-recommendations-feature)
+- [Disable the policy recommendations feature](#disable-policy-recommendations)
 
 ### Enable policy recommendations **using the web console**[​](#enable-policy-recommendations-using-the-web-console)
 
@@ -7331,7 +7331,7 @@ The **Policy Recommendations** board is automatically displayed.
 
 **Notes**:
 
-- A policy recommendation is generated for every namespace in your cluster (unless namespaces are filtered out by an Admin using the [selector](https://docs.tigera.io/calico-cloud/reference/resources/policyrecommendations#namespaceSpec#selector) in the PolicyRecommendationScope resource).
+- A policy recommendation is generated for every namespace in your cluster (unless namespaces are filtered out by an Admin using the [selector](https://docs.tigera.io/calico-cloud/reference/resources/policyrecommendations#namespacespec) in the PolicyRecommendationScope resource).
 - Flow logs are continuously monitored for policy recommendations.
 - Recommended policies are continuously updated until you **Add to policy board** or **Dismiss policy** using the Actions menu.
 - Policy recommendations are created as **staged network policies** so you can safely observe the traffic before enforcing them.
@@ -10104,7 +10104,7 @@ spec:
   <!-- -->
 
   - [Flow logs](https://docs.tigera.io/calico-cloud/observability/elastic/flow/datatypes)
-  - [Prometheus metrics](https://docs.tigera.io/calico-cloud/operations/monitor/metrics/#content-main)
+  - [Prometheus metrics](https://docs.tigera.io/calico-cloud/operations/monitor/metrics/)
 
 ### Troubleshoot policies
 
@@ -10206,8 +10206,8 @@ For other endpoint types (VMs, host interfaces), the default behavior is to deny
 
 ## How to[​](#how-to)
 
-- [Create a default deny network policy](#crate-a-default-deny-network-policy)
-- [Create a global default deny network policy](#create-a-global-default-deny-network-policy)
+- [Create a default deny network policy](#create-a-default-deny-network-policy)
+- [Create a global default deny network policy](#create-a-global-default-deny-policy)
 
 ### Create a default deny network policy[​](#create-a-default-deny-network-policy)
 
@@ -12770,7 +12770,7 @@ Application layer policies let you configure access controls based on L7 attribu
 - Support for L7 attributes is limited to HTTP method and URL exact/prefix path.
 - Supported protocols are limited to TCP-based protocols (for example, HTTP, HTTPS, or gRPC).
 - Application layer policies apply to the entire cluster. They can not be namespaced.
-- Logs for application layer polices are not included with other L7 logs in Service Graph. To view logs for application layer policies, you must [view them in Kibana](https://docs.tigera.io/calico-cloud/observability/elastic/l7/configure#kibana).
+- Logs for application layer polices are not included with other L7 logs in Service Graph. To view logs for application layer policies, you must [view them in Kibana](https://docs.tigera.io/calico-cloud/observability/elastic/l7/configure#view-l7-logs-in-the-web-console).
 - Application layer policy is supported only on Kubernetes 1.29 and later.
 
 > **INFO:** When you enable application layer policy for a deployment, all of that deployment's pods will restart Active connections may be disrupted.
@@ -14708,7 +14708,7 @@ To turn down aggregation on flow logs, go to [FelixConfiguration](https://docs.t
 
 ## How to[​](#how-to)
 
-- [Manage alerts in the web console](#manage-alerts-in-manager-ui)
+- [Manage alerts in the web console](#manage-alerts-in-the-web-console)
 - [Manage alerts using CLI](#manage-alerts-using-cli)
 
 ### Manage alerts in the web console[​](#manage-alerts-in-the-web-console)
@@ -16888,14 +16888,14 @@ L7 logs are visible in the web console, service graph, in the HTTP tab.
 ## How to[​](#how-to)
 
 - [Configure Felix for log data collection](#configure-felix-for-log-data-collection)
-- [Configure L7 logs](#configure-l7-logs)
-- [View L7 logs in the web console](#view-l7-logs-in-manager-ui)
+- [Configure L7 logs](#configure-l7-logs-1)
+- [View L7 logs in the web console](#view-l7-logs-in-the-web-console)
 
 ### Configure Felix for log data collection[​](#configure-felix-for-log-data-collection)
 
 1. Configure L7 log aggregation, retention, and reporting.
 
-   For help, see [Felix Configuration documentation](https://docs.tigera.io/calico-cloud/reference/component-resources/node/felix/configuration#calico-enterprise-specific-configuration).
+   For help, see [Felix Configuration documentation](https://docs.tigera.io/calico-cloud/reference/component-resources/node/felix/configuration).
 
 ### Configure L7 logs[​](#configure-l7-logs-1)
 
@@ -17376,7 +17376,7 @@ iptables logs are produced by [policy audit mode](#policy-audit-mode) or by usin
 
 Calico Cloud adds a Felix option `DropActionOverride` that configures how the `deny` `action` in a [Rule](https://docs.tigera.io/calico-cloud/reference/resources/networkpolicy#rule) is interpreted. It can add logs for denied packets, or even allow the traffic through.
 
-See the [Felix configuration reference](https://docs.tigera.io/calico-cloud/reference/component-resources/node/felix/configuration#calico-cloud-specific-configuration) for information on how to configure this option.
+See the [Felix configuration reference](https://docs.tigera.io/calico-cloud/reference/component-resources/node/felix/configuration) for information on how to configure this option.
 
 `DropActionOverride` controls what happens to each packet that is denied by the current Calico Cloud policy, i.e., by the ordered combination of all the configured policies and profiles that apply to that packet. It may be set to one of the following values:
 
@@ -18450,8 +18450,8 @@ Nodes require amd64 (x86\_64) architecture CPUs and one of the following distrib
 ## How to[​](#how-to)
 
 - [Enable Container threat detection in the managed cluster](#enable-container-threat-detection)
-- [Monitor the Security Events page for malicious programs](#monitor-alerts-page-for-malicious-programs)
-- [Exclude a process from Security Events alerts](#exclude-a-process-from-Security-Events-alerts)
+- [Monitor the Security Events page for malicious programs](#monitor-the-security-events-page-for-malicious-programs)
+- Exclude a process from Security Events alerts
 - [Update detectors settings](#update-detectors-settings)
   - [Configure detectors via RuntimeSecurity Custom Resource](#configure-detectors-via-runtimesecurity-custom-resource)
 
@@ -18575,7 +18575,7 @@ Every request that WAF finds an issue with, will result in a Security Event bein
 
 If you configure WAF in blocking mode, WAF will use something called [anomaly scoring mode](https://coreruleset.org/docs/2-how-crs-works/2-1-anomaly_scoring/) to determine if a request is allowed with `200 OK` or denied `403 Forbidden`.
 
-This works by matching a single HTTP request against all the configured WAF rules. Each rule has a score and WAF adds all the matched rule scores together, and compares it to the overall anomaly threshold score (100 by default). If the score is under the threshold the request is allowed and if the score is over the threshold the request is denied. Our WAF starts in detection mode only and with a high default scoring threshold so is safe to turn on and then [fine-tune the WAF](#manage-your-waf) for your specific needs in your cluster.
+This works by matching a single HTTP request against all the configured WAF rules. Each rule has a score and WAF adds all the matched rule scores together, and compares it to the overall anomaly threshold score (100 by default). If the score is under the threshold the request is allowed and if the score is over the threshold the request is denied. Our WAF starts in detection mode only and with a high default scoring threshold so is safe to turn on and then [fine-tune the WAF](#manage-waf-configuration) for your specific needs in your cluster.
 
 ## Before you begin[​](#before-you-begin)
 
@@ -19308,7 +19308,7 @@ Calico Cloud checks running images for new vulnerabilities every 24 hours and re
 
 Complete the following steps for each managed cluster you want enabled with the cluster scanner:
 
-1. Modify the [Image Assurance](https://docs.tigera.io/calico-cloud/reference/installation/ia-api#image-assurance.operator.tigera.io/v1.ImageAssuranceSpec) installation resource.
+1. Modify the [Image Assurance](https://docs.tigera.io/calico-cloud/reference/installation/ia-api) installation resource.
 
    ```bash
    kubectl edit imageassurance default
@@ -19324,7 +19324,7 @@ That’s it. The cluster scanner will start scanning images on running pods in t
 
 ### Customize scanner settings[​](#customize-scanner-settings)
 
-To change default settings, modify the [Image Assurance](https://docs.tigera.io/calico-cloud/reference/installation/ia-api#image-assurance.operator.tigera.io/v1.ImageAssuranceSpec) installation resource.
+To change default settings, modify the [Image Assurance](https://docs.tigera.io/calico-cloud/reference/installation/ia-api) installation resource.
 
 - Container runtime socket path
 
@@ -19338,7 +19338,7 @@ To change default settings, modify the [Image Assurance](https://docs.tigera.io/
 
 To specify which namespaces should be excluded from future scans, follow the following steps.
 
-- Modify your [Image Assurance](https://docs.tigera.io/calico-cloud/reference/installation/ia-api#image-assurance.operator.tigera.io/v1.ImageAssuranceSpec) installation resource to include the `exclusions.namespaces` field. List each namespace you want to exclude.
+- Modify your [Image Assurance](https://docs.tigera.io/calico-cloud/reference/installation/ia-api) installation resource to include the `exclusions.namespaces` field. List each namespace you want to exclude.
 
 ```yaml
 apiVersion: image-assurance.operator.tigera.io/v1
@@ -19413,7 +19413,7 @@ If the CLI scanner is part of your pipeline, scanning is done before runtime and
 
 - [Get the latest version of Image Assurance](#get-the-latest-version-of-image-assurance)
 - [Start the scanner](#start-the-scanner)
-- [Integrate the scanner in your build pipeline](#integrate-the-scanner-in-your-build-pipeline)
+- [Integrate the scanner in your build pipeline](#integrate-the-scanner-into-your-build-pipeline-1)
 - [Manually scan images](#manually-scan-images)
 - [Scan images using a configuration file](#scan-images-using-a-configuration-file)
 
@@ -23663,7 +23663,7 @@ Only KubeVirt's "bridged" networking mode is supported. This is because the peer
 ## How to[​](#how-to)
 
 - [Configure global BGP settings](#configure-global-bgp-settings)
-- [Create BGPFilter resources](#configure-bgpfilter-resources)
+- [Create BGPFilter resources](#create-bgpfilter-resources)
 - [Configure parent cluster BGP topology](#configure-parent-cluster-bgp-topology)
 - [Configure BGP peering with workloads](#configure-bgp-peering-with-workloads)
 - [Configure more than one nested cluster](#configure-more-than-one-nested-cluster)
@@ -24048,7 +24048,7 @@ For a dual ToR setup, LLGR is helpful, as explained in more detail by [this blog
 - [Prepare YAML resources describing the layout of your cluster](#prepare-yaml-resources-describing-the-layout-of-your-cluster)
 - [Arrange for dual-homed nodes to run cnx-node on each boot](#arrange-for-dual-homed-nodes-to-run-cnx-node-on-each-boot)
 - [Configure your ToR routers and infrastructure](#configure-your-tor-routers-and-infrastructure)
-- [Install Kubernetes and Calico Cloud](#install-kubernetes-and-calico-enterprise)
+- [Install Kubernetes and Calico Cloud](#install-kubernetes-and-calico-cloud)
 - [Verify the deployment](#verify-the-deployment)
 
 ### Prepare YAML resources describing the layout of your cluster[​](#prepare-yaml-resources-describing-the-layout-of-your-cluster)
@@ -27598,13 +27598,13 @@ Calico Cloud CNI and IPAM are required. The ability to control the egress gatewa
 - [Disable the default BGP node-to-node mesh](#disable-the-default-bgp-node-to-node-mesh)
 - [Enable BGP](#enable-bgp)
 - [Provision an egress IP pool](#provision-an-egress-ip-pool)
-- [(Optional) Limit number of route advertisement](#limit-number-of-route-advertisement)
-- [Configure route reflector](#configure-route-reflector)
+- [(Optional) Limit number of route advertisement](#optional-limit-number-of-route-advertisements)
+- [Configure route reflector](#configure-route-reflectors)
 - [Enable egress gateway support](#enable-egress-gateway-support)
 - [Deploy a group of egress gateways](#deploy-a-group-of-egress-gateways)
 - [Configure iptables backend for egress gateways](#configure-iptables-backend-for-egress-gateways)
 - [Configure namespaces and pods to use egress gateways](#configure-namespaces-and-pods-to-use-egress-gateways)
-- [(Optional) Enable ECMP load balancing](#optionally-enable-ecmp-load-balancing)
+- [(Optional) Enable ECMP load balancing](#optional-enable-ecmp-load-balancing)
 - [Verify the feature operation](#verify-the-feature-operation)
 - [Control the use of egress gateways](#control-the-use-of-egress-gateways)
 - [Policy enforcement for flows via an egress gateway](#policy-enforcement-for-flows-via-an-egress-gateway)
@@ -31431,7 +31431,7 @@ After completing the above steps for all cluster pairs in the cluster mesh, your
 
 The steps above assume that you are configuring both federated endpoint identity and multi-cluster networking for the first time. If you already have federated endpoint identity, and want to use multi-cluster networking, follow these steps:
 
-1. Validate that all [requirements](#calico-enterprise-multi-cluster-networking) for multi-cluster networking have been met.
+1. Validate that all [requirements](#prerequisites-for-calico-cloud-multi-cluster-networking) for multi-cluster networking have been met.
 2. Update the ClusterRole in each cluster in the cluster mesh using the RBAC manifest found in [Generate credentials for cross-cluster authentication](#generate-credentials-for-cross-cluster-resource-synchronization)
 3. In all RemoteClusterConfigurations, set `Spec.OverlayRoutingMode` to `Enabled`.
 4. Verify that all RemoteClusterConfigurations are bidirectional (in both directions for each cluster pair) using these [instructions](#establish-cross-cluster-resource-synchronization).
@@ -31562,7 +31562,7 @@ If the Typha logs do not yield the expected result, review the warning or error-
 ##### Basic validation[​](#basic-validation)
 
 - Ensure that RemoteClusterConfiguration and federated endpoint identity are [functioning correctly](#validate-federated-endpoint-identity--multi-cluster-networking)
-- Verify that you have met the [prerequisites](#calico-enterprise-multi-cluster-networking) for multi-cluster networking
+- Verify that you have met the [prerequisites](#prerequisites-for-calico-cloud-multi-cluster-networking) for multi-cluster networking
 - If you had previously set up RemoteClusterConfigurations without multi-cluster networking, and are upgrading to use the feature, review the [switching considerations](#switch-to-multi-cluster-networking)
 - Verify that traffic between clusters is not being denied by network policy
 
@@ -33708,7 +33708,7 @@ For the supported version of Prometheus in this release, see the [Release Notes]
 
 ### Scrape all enabled metrics[​](#scrape-all-enabled-metrics)
 
-In this section we create a service monitor that scrapes all enabled metrics. To enable metrics that are not enabled by default, please consult the [next section](#scrape-metrics-from-specific-components).
+In this section we create a service monitor that scrapes all enabled metrics. To enable metrics that are not enabled by default, please consult the [next section](#scrape-metrics-from-specific-components-directly).
 
 The following example shows a Prometheus server installed in namespace "external-prometheus" with a `serviceMonitorSelector` that selects all service monitors with the label `k8s-app=tigera-external-prometheus`.
 
@@ -34072,7 +34072,7 @@ The .yamls have no namespace defined so when you apply `kubectl`, it is applied 
 
 ### Troubleshooting[​](#troubleshooting)
 
-This section is applicable only if you experience issues with mTLS after following the [Scrape metrics from specific components directly](#scrape-metrics-from-specific-components) section.
+This section is applicable only if you experience issues with mTLS after following the [Scrape metrics from specific components directly](#scrape-metrics-from-specific-components-directly) section.
 
 1. Extract the TLS credentials and CA bundle from the cluster.
 
@@ -34926,7 +34926,7 @@ sum(irate(cnx_policy_rule_packets{namespace="namespace-2",policy="policy-0",tier
 sum(irate(cnx_policy_rule_packets[30s])) without (instance,rule_index,rule_direction)
 ```
 
-See the [Felix configuration reference](https://docs.tigera.io/calico-cloud/reference/component-resources/node/felix/configuration#calico-cloud-specific-configuration) for the settings that control the reporting of these metrics. Calico Cloud manifests normally set `PrometheusReporterEnabled=true` and `PrometheusReporterPort=9081`, so these metrics are available on each compute node at `http://<node-IP>:9081/metrics`.
+See the [Felix configuration reference](https://docs.tigera.io/calico-cloud/reference/component-resources/node/felix/configuration) for the settings that control the reporting of these metrics. Calico Cloud manifests normally set `PrometheusReporterEnabled=true` and `PrometheusReporterPort=9081`, so these metrics are available on each compute node at `http://<node-IP>:9081/metrics`.
 
 ### Fluentd metrics
 
@@ -35627,7 +35627,7 @@ Sometimes it is necessary to examine the logs that are emitted by the eBPF progr
 
 > **WARNING:** Enabling logs in this way has a significant impact on eBPF program performance.
 
-To reduce the performance impact in production clusters, you can target logging to specific traffic and/or specific interfaces using the [bpfLogFilters](https://docs.tigera.io/calico-cloud/reference/component-resources/node/felix/configuration#BPFLogFilters) Felix configuration setting. Filters are pcap expressions.
+To reduce the performance impact in production clusters, you can target logging to specific traffic and/or specific interfaces using the [bpfLogFilters](https://docs.tigera.io/calico-cloud/reference/component-resources/node/felix/configuration) Felix configuration setting. Filters are pcap expressions.
 
 > Note that the filters are applied to the original packet, before any NAT or encapsulation. Therefore, to log a packet that is being sent to a service making its way via different devices, you must filter on the service IP and port and also the backend pod IP and port.
 
@@ -42121,7 +42121,7 @@ spec:
 | asNumber                 | The remote AS Number of the peer.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | A valid AS Number, may be specified in dotted notation.                                     | integer/string              |                                                                              |
 | nodeSelector             | Selector for the nodes that should have this peering. When this is set, the `node` field must be empty.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |                                                                                             | [selector](#selector)       |                                                                              |
 | peerSelector             | Selector for the remote nodes to peer with. When this is set, the `peerIP` and `asNumber` fields must be empty.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |                                                                                             | [selector](#selector)       |                                                                              |
-| localWorkloadSelector    | Selector for the local workloads that the node should peer with. When this is set, the `peerSelector` and `peerIP` fields must be empty and the `localWorkloadPeeringIPV4` and/or `localWorkloadPeeringIPV6` fields in the `BGPConfiguration` resource must be configured. It is also important to configure appropriate import/export filters when using this feature. See the [guide](https://docs.tigera.io/calico-cloud/networking/configuring/bgp-to-workload) for details.                                                                                                                                                                           |                                                                                             | [selector](#selectors)      |                                                                              |
+| localWorkloadSelector    | Selector for the local workloads that the node should peer with. When this is set, the `peerSelector` and `peerIP` fields must be empty and the `localWorkloadPeeringIPV4` and/or `localWorkloadPeeringIPV6` fields in the `BGPConfiguration` resource must be configured. It is also important to configure appropriate import/export filters when using this feature. See the [guide](https://docs.tigera.io/calico-cloud/networking/configuring/bgp-to-workload) for details.                                                                                                                                                                           |                                                                                             | [selector](#selector)       |                                                                              |
 | keepOriginalNextHop      | Maintain and forward the original next hop BGP route attribute to a specific Peer within a different AS.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |                                                                                             | boolean                     |                                                                              |
 | extensions               | Additional mapping of keys and values. Used for setting values in custom BGP configurations.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | valid strings for both keys and values                                                      | map                         |                                                                              |
 | password                 | [BGP password](https://docs.tigera.io/calico-cloud/operations/comms/secure-bgp) for the peerings generated by this BGPPeer resource.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |                                                                                             | [BGPPassword](#bgppassword) | `nil` (no password)                                                          |
@@ -42453,7 +42453,7 @@ spec:
 | Field         | Description                               | Accepted Values                                                      | Schema | Default |
 | ------------- | ----------------------------------------- | -------------------------------------------------------------------- | ------ | ------- |
 | cidr          | IPv6 range                                | A valid IPv6 CIDR                                                    | string |         |
-| prefixLength  | [PrefixLength](#bgp-filter-prefix-length) | Valid integers between 0 and ipv4/6 max (32, 128)                    |        |         |
+| prefixLength  | PrefixLength                              | Valid integers between 0 and ipv4/6 max (32, 128)                    |        |         |
 | matchOperator | Method by which to match candidate routes | `In`, `NotIn`, `Equal`, `NotEqual`                                   | string |         |
 | source        | Indicator of the source of route          | `RemotePeers` means any route learned from other BGP peers           | string |         |
 | interface     | String to match interface names           | A valid pattern to match interfaces. "\*" can be used as a wildcard. | string |         |
@@ -42464,7 +42464,7 @@ spec:
 | Field         | Description                               | Accepted Values                                                      | Schema | Default |
 | ------------- | ----------------------------------------- | -------------------------------------------------------------------- | ------ | ------- |
 | cidr          | IPv6 range                                | A valid IPv6 CIDR                                                    | string |         |
-| prefixLength  | [PrefixLength](#bgp-filter-prefix-length) | Valid integers between 0 and ipv4/6 max (32, 128)                    |        |         |
+| prefixLength  | PrefixLength                              | Valid integers between 0 and ipv4/6 max (32, 128)                    |        |         |
 | matchOperator | Method by which to match candidate routes | `In`, `NotIn`, `Equal`, `NotEqual`                                   | string |         |
 | source        | Indicator of the source of route          | `RemotePeers` means any route learned from other BGP peers           | string |         |
 | interface     | String to match interface names           | A valid pattern to match interfaces. "\*" can be used as a wildcard. | string |         |
@@ -46309,11 +46309,12 @@ failsafeOutboundHostPorts:
 
 ### DNSPolicyMode[​](#dnspolicymode)
 
-| Value             | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| DelayDeniedPacket | Felix delays any denied packet that traversed a policy that included egress domain matches, but did not match. The packet is released after a fixed time, or after the destination IP address was programmed.                                                                                                                                                                                                                                                                              |
-| DelayDNSResponse  | Felix delays any DNS response until related IPSets are programmed. This introduces some latency to all DNS packets (even when no IPSet programming is required), but it ensures policy hit statistics are accurate. This is the recommended setting when you are making use of staged policies or policy rule hit statistics. A Linux kernel version of 3.13 or greater is required to use `DelayDNSResponse`. For earlier kernel versions, this value is modified to `DelayDeniedPacket`. |
-| NoDelay           | Felix does not introduce any delay to the packets. DNS rules may not have been programmed by the time the first packet traverses the policy rules. Client applications need to handle reconnection attempts if initial connection attempts fail. This may be problematic for some applications or for very low DNS TTLs.                                                                                                                                                                   |
+| Value                       | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| DelayDeniedPacket (default) | Felix delays any denied packet that traversed a policy that included egress domain matches, but did not match. The packet is released after a fixed time, or after the destination IP address was programmed.                                                                                                                                                                                                                                                                              |
+| DelayDNSResponse            | Felix delays any DNS response until related IPSets are programmed. This introduces some latency to all DNS packets (even when no IPSet programming is required), but it ensures policy hit statistics are accurate. This is the recommended setting when you are making use of staged policies or policy rule hit statistics. A Linux kernel version of 3.13 or greater is required to use `DelayDNSResponse`. For earlier kernel versions, this value is modified to `DelayDeniedPacket`. |
+| Inline                      | Parses DNS response inline with DNS response packet processing within iptables. This guarantees the DNS rules reflect any change immediately. This mode works for iptables only and matches the same mode for `BPFDNSPolicyMode`. This setting is ignored on Windows and `NoDelay` is always used.                                                                                                                                                                                         |
+| NoDelay                     | Felix does not introduce any delay to the packets. DNS rules may not have been programmed by the time the first packet traverses the policy rules. Client applications need to handle reconnection attempts if initial connection attempts fail. This may be problematic for some applications or for very low DNS TTLs.                                                                                                                                                                   |
 
 On Windows, or when using the eBPF dataplane, this setting is ignored. Windows always uses `NoDelay` while eBPF has its own [BPFDNSPolicyMode](#bpfdnspolicymode) option.
 
@@ -46909,7 +46910,7 @@ A single rule matches a set of packets and applies some action to them. When mul
 | ipVersion   | Positive IP version match.                                                                 | `4`, `6`                                                     | integer                       |         |
 | source      | Source match parameters.                                                                   |                                                              | [EntityRule](#entityrule)     |         |
 | destination | Destination match parameters.                                                              |                                                              | [EntityRule](#entityrule)     |         |
-| http        | Match HTTP request parameters. Application layer policy must be enabled to use this field. |                                                              | [HTTPMatch](#httpmatch)       |         |
+| http        | Match HTTP request parameters. Application layer policy must be enabled to use this field. |                                                              | HTTPMatch                     |         |
 
 After a `Log` action, processing continues with the next rule; `Allow` and `Deny` are immediate and final and no further rules are processed.
 
@@ -48617,7 +48618,7 @@ A single rule matches a set of packets and applies some action to them. When mul
 | ipVersion   | Positive IP version match.                                                                 | `4`, `6`                                                     | integer                       |         |
 | source      | Source match parameters.                                                                   |                                                              | [EntityRule](#entityrule)     |         |
 | destination | Destination match parameters.                                                              |                                                              | [EntityRule](#entityrule)     |         |
-| http        | Match HTTP request parameters. Application layer policy must be enabled to use this field. |                                                              | [HTTPMatch](#httpmatch)       |         |
+| http        | Match HTTP request parameters. Application layer policy must be enabled to use this field. |                                                              | HTTPMatch                     |         |
 
 After a `Log` action, processing continues with the next rule; `Allow` and `Deny` are immediate and final and no further rules are processed.
 
@@ -49700,7 +49701,7 @@ A single rule matches a set of packets and applies some action to them. When mul
 | ipVersion   | Positive IP version match.                                                                 | `4`, `6`                                                     | integer                       |         |
 | source      | Source match parameters.                                                                   |                                                              | [EntityRule](#entityrule)     |         |
 | destination | Destination match parameters.                                                              |                                                              | [EntityRule](#entityrule)     |         |
-| http        | Match HTTP request parameters. Application layer policy must be enabled to use this field. |                                                              | [HTTPMatch](#httpmatch)       |         |
+| http        | Match HTTP request parameters. Application layer policy must be enabled to use this field. |                                                              | HTTPMatch                     |         |
 
 After a `Log` action, processing continues with the next rule; `Allow` and `Deny` are immediate and final and no further rules are processed.
 
@@ -50130,7 +50131,7 @@ A single rule matches a set of packets and applies some action to them. When mul
 | ipVersion   | Positive IP version match.                                                                 | `4`, `6`                                                     | integer                       |         |
 | source      | Source match parameters.                                                                   |                                                              | [EntityRule](#entityrule)     |         |
 | destination | Destination match parameters.                                                              |                                                              | [EntityRule](#entityrule)     |         |
-| http        | Match HTTP request parameters. Application layer policy must be enabled to use this field. |                                                              | [HTTPMatch](#httpmatch)       |         |
+| http        | Match HTTP request parameters. Application layer policy must be enabled to use this field. |                                                              | HTTPMatch                     |         |
 
 After a `Log` action, processing continues with the next rule; `Allow` and `Deny` are immediate and final and no further rules are processed.
 
@@ -62751,7 +62752,7 @@ For more information, see [Configure an ingress gateway](https://docs.tigera.io/
 
 This release adds customization options for specifying external load balancers for `Gateway` resources in your cluster.
 
-For more information, see [Customize gateway deployment and features](https://docs.tigera.io/calico-cloud/networking/ingress-gateway/about-calico-ingress-gateway#customize-gateway-deployment-and-features).
+For more information, see [Customize gateway deployment and features](https://docs.tigera.io/calico-cloud/networking/ingress-gateway/about-calico-ingress-gateway).
 
 #### Web application firewall for Calico Ingress Gateway[​](#web-application-firewall-for-calico-ingress-gateway)
 
@@ -63016,7 +63017,7 @@ For more information, see [Dashboards](https://docs.tigera.io/calico-cloud/obser
 
 ## December 3, 2024 (version 20.3.0)[​](#december-3-2024-version-2030)
 
-> **INFO:** Because of a breaking change, this version is no longer available. Upgrade instead to [Calico Cloud 20.3.1](#20.3.1) or later.
+> **INFO:** Because of a breaking change, this version is no longer available. Upgrade instead to Calico Cloud 20.3.1 or later.
 
 ### New features and enhancements[​](#new-features-and-enhancements-17)
 
@@ -63096,7 +63097,7 @@ For more information, see [Update detector settings](https://docs.tigera.io/cali
 
 We added a way to create Security Event exceptions for processes in your cluster that you know to be safe. This can be a helpful way to eliminate noise and false positives in your alerts.
 
-For more information, see [Exclude a process from Security Events alerts](https://docs.tigera.io/calico-cloud/threat/container-threat-detection#exclude-process).
+For more information, see [Exclude a process from Security Events alerts](https://docs.tigera.io/calico-cloud/threat/container-threat-detection).
 
 #### Added EPSS data to Image Assurance results[​](#added-epss-data-to-image-assurance-results)
 
